@@ -8,11 +8,26 @@ pub mod sms {
     pub fn initialize_chat(ctx: Context<InitializeChat>) -> Result<()> {
         let chat = &mut ctx.accounts.chat;
         chat.initializer = ctx.accounts.initializer.key();
-        chat.recepient = ctx.accounts.receiver.key();
+        chat.receiver = ctx.accounts.receiver.key();
         Ok(())
     }
 
-    pub fn initialize_message(ctx: Context<InitializeMessage>) -> Result<()> {
+    pub fn initialize_message(ctx: Context<InitializeMessage>, text:String) -> Result<()> {
+        let message = &mut ctx.accounts.message;
+        let chat = &mut ctx.accounts.chat;
+        let reciever = &chat.receiver;
+        let initializer = &chat.initializer;
+        require!(text.len() < 255, MessageError::InvalidMessage);
+
+        match ctx.accounts.initializer.key() {
+
+            reciever => message.mark = 1,
+
+            initializer => message.mark = 0,
+
+            _ => return Err(MessageError::InvalidMessage.into()),
+
+        }
 
         Ok(())
     }
@@ -44,13 +59,14 @@ pub struct InitializeMessage<'info>  {
     #[account(mut)]
     pub initializer: Signer<'info>,
     pub receiver: SystemAccount<'info>,
+    pub chat: Account<'info, Chat>,
     pub system_program: Program<'info, System>
 }
 
 #[account]
 pub struct Chat {        //8
     initializer: Pubkey, //32
-    recepient: Pubkey,   //32
+    receiver: Pubkey,   //32
 }
 
 impl Message {
@@ -68,4 +84,10 @@ impl Message {
 pub struct Message {
     message: String,    //255
     mark: u8,           //1
+}
+
+#[error_code]
+pub enum MessageError {
+    InvalidMessage,
+    InvalidChat,
 }
