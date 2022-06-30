@@ -77,6 +77,7 @@ pub struct CloseChat<'info> {
         constraint = chat.initializer.key() == initializer.key(),
     )]
     pub chat: Account<'info, Chat>,
+    #[account(mut)]
     pub initializer: Signer<'info>,
 }
 

@@ -9,7 +9,6 @@ describe("sms", () => {
 
   const program = anchor.workspace.Sms as Program<Sms>;
 
-
   const receiver = anchor.web3.Keypair.generate();
 
   const initializer = anchor.web3.Keypair.generate();
@@ -18,7 +17,6 @@ describe("sms", () => {
 
   const message = anchor.web3.Keypair.generate();
   
-
   it("Is initialized!", async () => {
     // Add your test here.
 
@@ -28,6 +26,10 @@ describe("sms", () => {
       "confirmed"
     );
 
+    await program.provider.connection.confirmTransaction(
+      await program.provider.connection.requestAirdrop(receiver.publicKey, 10000000000),
+      "confirmed"
+    );
 
     //if you don't have lamports you will get error 0x1
     let balancebefore = await program.provider.connection.getBalance(initializer.publicKey);
@@ -49,11 +51,11 @@ describe("sms", () => {
     let chatAccount = await program.account.chat.fetch(chat.publicKey);
     console.log("chat account", chatAccount);
 
-    //let balancebeforemessage = await program.provider.connection.getBalance(initializer.publicKey);
-    //console.log("balance before message: ", balancebeforemessage* (10**-9));
+    let balancebeforemessage = await program.provider.connection.getBalance(initializer.publicKey);
+    console.log("balance before message: ", balancebeforemessage* (10**-9));
 
     const tx2 = await program.methods.initializeMessage
-    ("max is 254 A while back I needed to count the amount of letters that a piece of text in an email template had (to avoid passing any charajjjjcter limits). Unfortunately, I could not think of a quick way to do so on my macbook and I therefore turned to the Internet.")
+    ("max is 222 o avoid passing any charajjjjcter limits). Unfortunately, I could not think of a quick way to do so on my macbook and I therefore turned to the Internet.")
     .accounts(
       {
         message: message.publicKey,
@@ -86,5 +88,24 @@ describe("sms", () => {
     //get owner of our chat account which is the programID
     //const programAccounts = await program.provider.connection.getProgramAccounts(program.programId);
     //console.log(programAccounts[0].account.owner.toBase58());
+
+    const tx3 = await program.methods.closeMessage()
+    .accounts(
+      {
+        message: message.publicKey,
+        chat: chat.publicKey,
+        initializer: initializer.publicKey,
+        receiver: initializer.publicKey,
+      }
+    ).signers([initializer]).rpc();
+
+    const tx4 = await program.methods.closeChat()
+    .accounts(
+      {
+        chat: chat.publicKey,
+        initializer: initializer.publicKey,
+      }
+    ).signers([initializer]).rpc();
+
   });
 });
