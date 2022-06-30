@@ -49,7 +49,11 @@ describe("sms", () => {
     let chatAccount = await program.account.chat.fetch(chat.publicKey);
     console.log("chat account", chatAccount);
 
-    const tx2 = await program.methods.initializeMessage("test")
+    //let balancebeforemessage = await program.provider.connection.getBalance(initializer.publicKey);
+    //console.log("balance before message: ", balancebeforemessage* (10**-9));
+
+    const tx2 = await program.methods.initializeMessage
+    ("max is 254 A while back I needed to count the amount of letters that a piece of text in an email template had (to avoid passing any charajjjjcter limits). Unfortunately, I could not think of a quick way to do so on my macbook and I therefore turned to the Internet.")
     .accounts(
       {
         message: message.publicKey,
@@ -59,6 +63,12 @@ describe("sms", () => {
         systemProgram: anchor.web3.SystemProgram.programId,
       }
     ).signers([message, initializer]).rpc();
+
+    //let balanceaftermessage = await program.provider.connection.getBalance(initializer.publicKey);
+    //console.log("balance after message: ", balanceaftermessage* (10**-9));
+
+    //let balancecost = (balancebeforemessage* (10**-9) - balanceaftermessage* (10**-9));
+    //console.log("balance cost: ", balancecost);
 
     //const chatAccounts = await program.provider.connection.getProgramAccounts(chat.publicKey);
     //console.log("chat account", chatAccounts); 

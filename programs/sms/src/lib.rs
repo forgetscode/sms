@@ -32,10 +32,25 @@ pub mod sms {
             message.mark = 1;
             //chat recepient sent message
         }
-        
+
         message.chat = chat.key();
         message.message = text;
 
+        Ok(())
+    }
+
+    pub fn close_chat(_ctx: Context<CloseChat>) -> Result<()> {
+        Ok(())
+    }
+
+    pub fn close_message(ctx: Context<CloseMessage>) -> Result<()> {
+        let message = &mut ctx.accounts.message;
+        let chat = &mut ctx.accounts.chat;
+        match message.mark {
+            0 => require!(chat.initializer == ctx.accounts.receiver.key(), MessageError::IncorrectReceiver),
+            1 => require!(chat.receiver == ctx.accounts.receiver.key(), MessageError::IncorrectReceiver),
+            _ => require!(true, MessageError::InvalidMessage),
+        }
         Ok(())
     }
 }
@@ -52,6 +67,33 @@ pub struct InitializeChat<'info>  {
     pub initializer: Signer<'info>,
     pub receiver: SystemAccount<'info>,
     pub system_program: Program<'info, System>
+}
+
+#[derive(Accounts)]
+pub struct CloseChat<'info> {
+    #[account(
+        mut, 
+        close = initializer,
+        constraint = chat.initializer.key() == initializer.key(),
+    )]
+    pub chat: Account<'info, Chat>,
+    pub initializer: Signer<'info>,
+}
+
+#[derive(Accounts)]
+pub struct CloseMessage<'info> {
+    #[account(
+        mut, 
+        close = receiver,
+        constraint = message.chat.key() == chat.key(),
+        constraint = initializer.key() == chat.initializer.key() || 
+        initializer.key() == chat.receiver.key(),
+    )]
+    pub message: Account<'info, Message>,
+    pub chat: Account<'info, Chat>,
+    pub initializer: Signer<'info>,
+    #[account(mut)]
+    pub receiver: SystemAccount<'info>,
 }
 
 #[derive(Accounts)]
@@ -100,4 +142,5 @@ pub struct Message {
 pub enum MessageError {
     InvalidMessage,
     InvalidChat,
+    IncorrectReceiver,
 }
