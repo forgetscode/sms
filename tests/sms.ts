@@ -15,6 +15,8 @@ describe("sms", () => {
   const initializer = anchor.web3.Keypair.generate();
 
   const chat = anchor.web3.Keypair.generate();
+
+  const message = anchor.web3.Keypair.generate();
   
 
   it("Is initialized!", async () => {
@@ -41,18 +43,38 @@ describe("sms", () => {
       },
     ).signers([chat, initializer]).rpc();
 
-    //program accounts, gets all accounts owned by our program in an array
-    const programAccounts = await program.provider.connection.getProgramAccounts(program.programId);
-    //console.log("chat account", programAccounts);
 
-    //toBase58 - Binary -> readable
-    //get owner of our chat account which is the programID
-    //console.log(programAccounts[0].account.owner.toBase58());
 
     //get account data
     let chatAccount = await program.account.chat.fetch(chat.publicKey);
     console.log("chat account", chatAccount);
 
-    console.log("Your transaction signature", tx);
+    const tx2 = await program.methods.initializeMessage("test")
+    .accounts(
+      {
+        message: message.publicKey,
+        initializer: initializer.publicKey,
+        receiver: receiver.publicKey,
+        chat: chat.publicKey,
+        systemProgram: anchor.web3.SystemProgram.programId,
+      }
+    ).signers([message, initializer]).rpc();
+
+    //const chatAccounts = await program.provider.connection.getProgramAccounts(chat.publicKey);
+    //console.log("chat account", chatAccounts); 
+
+    let messagedata = await program.account.message.fetch(message.publicKey);
+    console.log("message data", messagedata);
+
+    //get account info
+    //let messageinfo = await program.provider.connection.getAccountInfo(message.publicKey);
+    //console.log("message info", messageinfo.owner.toBase58());
+
+    //program accounts, gets all accounts owned by our program in an array
+
+    //toBase58 - Binary -> readable
+    //get owner of our chat account which is the programID
+    //const programAccounts = await program.provider.connection.getProgramAccounts(program.programId);
+    //console.log(programAccounts[0].account.owner.toBase58());
   });
 });
