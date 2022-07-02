@@ -18,9 +18,9 @@ for a specific chat in almost exact time.
 must query all program accounts to find their chats. Splitting up the message program and the chat program would drastically improve the
 scalability of the receiver chat query as find program accounts could isolate the chat accounts instead of both chat and message accounts.
 
-- Refresh button for chats. Without a centralized server to update chats have to be manually resfreshed.
+- Refresh button for chats. Without a centralized server to update chats have to be manually resfreshed so this should be made obvious to users.
 
-- Reclaim button. Delete messages to reclaim Sol making the protocol have an actual reasonable cost for usage.
+- Reclaim button. Delete messages to reclaim Sol making the protocol have an actual reasonable cost for usage. Rent costs for messages would normally be too high for real usage otherwise.
 
 End result of optimizations:
 
