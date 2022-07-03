@@ -1,0 +1,11 @@
+/home/forgets_code/dinosasur/sms/target/bpfel-unknown-unknown/release/deps/serde_bytes-316c569974018675.rmeta: /home/forgets_code/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_bytes-0.11.6/src/lib.rs /home/forgets_code/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_bytes-0.11.6/src/bytes.rs /home/forgets_code/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_bytes-0.11.6/src/de.rs /home/forgets_code/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_bytes-0.11.6/src/ser.rs /home/forgets_code/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_bytes-0.11.6/src/bytebuf.rs
+
+/home/forgets_code/dinosasur/sms/target/bpfel-unknown-unknown/release/deps/libserde_bytes-316c569974018675.rlib: /home/forgets_code/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_bytes-0.11.6/src/lib.rs /home/forgets_code/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_bytes-0.11.6/src/bytes.rs /home/forgets_code/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_bytes-0.11.6/src/de.rs /home/forgets_code/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_bytes-0.11.6/src/ser.rs /home/forgets_code/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_bytes-0.11.6/src/bytebuf.rs
+
+/home/forgets_code/dinosasur/sms/target/bpfel-unknown-unknown/release/deps/serde_bytes-316c569974018675.d: /home/forgets_code/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_bytes-0.11.6/src/lib.rs /home/forgets_code/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_bytes-0.11.6/src/bytes.rs /home/forgets_code/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_bytes-0.11.6/src/de.rs /home/forgets_code/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_bytes-0.11.6/src/ser.rs /home/forgets_code/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_bytes-0.11.6/src/bytebuf.rs
+
+/home/forgets_code/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_bytes-0.11.6/src/lib.rs:
+/home/forgets_code/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_bytes-0.11.6/src/bytes.rs:
+/home/forgets_code/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_bytes-0.11.6/src/de.rs:
+/home/forgets_code/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_bytes-0.11.6/src/ser.rs:
+/home/forgets_code/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_bytes-0.11.6/src/bytebuf.rs:

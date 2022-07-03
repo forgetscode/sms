@@ -9,6 +9,7 @@ pub mod sms {
         let chat = &mut ctx.accounts.chat;
         chat.initializer = ctx.accounts.initializer.key();
         chat.receiver = ctx.accounts.receiver.key();
+        chat.message_count = 0;
         Ok(())
     }
 
@@ -16,13 +17,7 @@ pub mod sms {
         let message = &mut ctx.accounts.message;
         let chat = &mut ctx.accounts.chat;
 
-        require!(text.len() < 255, MessageError::InvalidMessage);
-
-        require!(chat.initializer == ctx.accounts.initializer.key() 
-        || chat.initializer == ctx.accounts.receiver.key(), MessageError::InvalidMessage);
-
-        require!(chat.receiver == ctx.accounts.initializer.key() 
-        || chat.receiver == ctx.accounts.receiver.key(), MessageError::InvalidMessage);
+        require!(text.len() < 222, MessageError::InvalidMessage);
 
         if ctx.accounts.initializer.key() == chat.initializer {
             message.mark = 0;
@@ -35,9 +30,11 @@ pub mod sms {
 
         message.chat = chat.key();
         message.message = text;
+        chat.message_count += 1;
 
         Ok(())
     }
+
 
     pub fn close_chat(_ctx: Context<CloseChat>) -> Result<()> {
         Ok(())
@@ -60,7 +57,7 @@ pub struct InitializeChat<'info>  {
     #[account(
         init,
         payer = initializer,
-        space = 8 + 32 + 32,
+        space = 8 + 32 + 32 + 1,
     )]
     pub chat: Account<'info, Chat>,
     #[account(mut)]
@@ -68,6 +65,7 @@ pub struct InitializeChat<'info>  {
     pub receiver: SystemAccount<'info>,
     pub system_program: Program<'info, System>
 }
+
 
 #[derive(Accounts)]
 pub struct CloseChat<'info> {
@@ -109,6 +107,14 @@ pub struct InitializeMessage<'info>  {
     #[account(mut)]
     pub initializer: Signer<'info>,
     pub receiver: SystemAccount<'info>,
+    #[account(
+        mut,
+        constraint = initializer.key() == chat.initializer.key() || 
+        initializer.key() == chat.receiver.key(),
+        constraint = receiver.key() == chat.initializer.key() || 
+        receiver.key() == chat.receiver.key(),
+        constraint = receiver.key() != initializer.key()
+    )]
     pub chat: Account<'info, Chat>,
     pub system_program: Program<'info, System>
 }
@@ -117,6 +123,7 @@ pub struct InitializeMessage<'info>  {
 pub struct Chat {         //8
     initializer: Pubkey,  //32
     receiver: Pubkey,     //32
+    message_count: u8,    //1
 }
 
 impl Message {
