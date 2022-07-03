@@ -1,9 +1,10 @@
 # sms
 Serverless messaging protocol v0.1
 
-Implementation currently requires all program account data to be queried resulting in poor scalability.
+Make two chat accounts for each chat so they can be derived from either user.
 
-Intended optimization features
+Hard limit 12 chats for each user to derive without a central map.
 
-- Split up message and chat program to prefetch chat accounts with offset without scanning message accounts. Drastically improves indexing.
-- Consider borsch serialization for compact and more private data. Improves loading/data transmission.
+Include message counters in both chat copies that get updated together.
+
+Have client derive messages for both users at the same time.
