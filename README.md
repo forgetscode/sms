@@ -5,5 +5,5 @@ Implementation currently requires all program account data to be queried resulti
 
 Intended optimization features
 
-- Split up message and chat program to prefetch chat accounts with offset. Drastically improves indexing.
-- Consider borsch serialization for compact and more private data. Improves loading.
+- Split up message and chat program to prefetch chat accounts with offset without scanning message accounts. Drastically improves indexing.
+- Consider borsch serialization for compact and more private data. Improves loading/data transmission.
